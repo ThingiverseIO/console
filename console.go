@@ -50,6 +50,26 @@ func (c *Console) AskEnterOrAbort(prompt, abortWith string) (abort bool) {
 }
 
 func AskString(prompt string) (s string) { return con.AskString(prompt) }
+func (c *Console) AskYesOrNo(promt string, def bool) (yes bool) {
+	c.Print(promt)
+	if def {
+		c.Print(" [Y/n] ")
+	} else {
+		c.Print(" [n/Y] ")
+	}
+	in := c.getInput()
+	switch strings.ToLower(in) {
+	case "y":
+		yes = true
+	case "n":
+		yes = false
+	default:
+		yes = def
+	}
+	return
+}
+
+func AskString(prompt string) (s string) { return con.AskString(prompt) }
 func (c *Console) AskString(promt string) (s string) {
 	c.Print(promt)
 	return c.getInput()
