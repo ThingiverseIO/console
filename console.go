@@ -8,6 +8,8 @@ import (
 	"strings"
 )
 
+var con *Console = New()
+
 type Console struct {
 	in *bufio.Reader
 }
@@ -19,28 +21,41 @@ func New() (c *Console) {
 	return
 }
 
-func (c *Console) Print(message ...interface{})   { c.print(fmt.Sprint(message...)) }
+func Get() (c *Console) { return con }
 
+func Print(message ...interface{})              { con.Print(message...) }
+func (c *Console) Print(message ...interface{}) { c.print(fmt.Sprint(message...)) }
+
+func Println(message ...interface{})              { con.Println(message...) }
 func (c *Console) Println(message ...interface{}) { c.print(fmt.Sprintln(message...)) }
 
+func Printf(format string, values ...interface{}) { con.Printf(format, values...) }
 func (c *Console) Printf(format string, values ...interface{}) {
 	c.print(fmt.Sprintf(format, values...))
 }
 
+func AskEnter(prompt string) { con.AskEnter(prompt) }
 func (c *Console) AskEnter(prompt string) {
 	c.Println(prompt)
 	c.getInput()
 }
 
+func AskString(prompt string) (s string) { return con.AskString(prompt) }
 func (c *Console) AskString(promt string) (s string) {
 	c.Print(promt)
 	return c.getInput()
 }
 
+func AskStringf(format string, values ...interface{}) (s string) {
+	return con.AskStringf(format, values...)
+}
 func (c *Console) AskStringf(format string, values ...interface{}) (s string) {
 	return c.AskString(fmt.Sprintf(format, values...))
 }
 
+func AskOption(prompt string, options ...string) (selected string, aborted bool) {
+	return con.AskOption(prompt, options...)
+}
 func (c *Console) AskOption(prompt string, options ...string) (selected string, aborted bool) {
 	for i, option := range options {
 		fmt.Printf(" [%d] %s\n", i+1, option)
@@ -64,12 +79,15 @@ func (c *Console) AskOption(prompt string, options ...string) (selected string, 
 	return
 }
 
+func AskOptionValue(prompt string, options map[string]interface{}) (selected string, value interface{}, aborted bool) {
+	return con.AskOptionValue(prompt, options)
+}
 func (c *Console) AskOptionValue(prompt string, options map[string]interface{}) (selected string, value interface{}, aborted bool) {
 	var selections []string
 	for selection := range options {
 		selections = append(selections, selection)
 	}
-	selected, aborted = c.AskOption(prompt,selections...)
+	selected, aborted = c.AskOption(prompt, selections...)
 	if !aborted {
 		value = options[selected]
 	}
