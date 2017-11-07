@@ -49,7 +49,7 @@ func (c *Console) AskEnterOrAbort(prompt, abortWith string) (abort bool) {
 	return
 }
 
-func AskString(prompt string) (s string) { return con.AskString(prompt) }
+func AskYesOrNo(prompt string, def bool) (s string) { return con.AskYesOrNo(prompt, def) }
 func (c *Console) AskYesOrNo(promt string, def bool) (yes bool) {
 	c.Print(promt)
 	if def {
