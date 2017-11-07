@@ -46,6 +46,7 @@ func AskEnterOrAbort(prompt, abortWith string) (abort bool) {
 func (c *Console) AskEnterOrAbort(prompt, abortWith string) (abort bool) {
 	c.Println(prompt)
 	abort = c.getInput() == "q"
+	return
 }
 
 func AskString(prompt string) (s string) { return con.AskString(prompt) }
