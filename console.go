@@ -55,7 +55,7 @@ func (c *Console) AskYesOrNo(promt string, def bool) (yes bool) {
 	if def {
 		c.Print(" [Y/n] ")
 	} else {
-		c.Print(" [n/Y] ")
+		c.Print(" [y/N] ")
 	}
 	in := c.getInput()
 	switch strings.ToLower(in) {
